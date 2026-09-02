@@ -5,8 +5,13 @@ const forwardedViteArgs = process.argv.slice(2);
 const children = new Set();
 let stopping = false;
 
+const isWindows = process.platform === "win32";
+
 function spawnPnpm(args) {
-  const child = spawn("pnpm", args, { stdio: "inherit" });
+  // On Windows, .cmd shims (e.g. pnpm) can only be spawned via the shell.
+  const child = isWindows
+    ? spawn(["pnpm", ...args].join(" "), { stdio: "inherit", shell: true })
+    : spawn("pnpm", args, { stdio: "inherit" });
   children.add(child);
   child.once("exit", () => children.delete(child));
   return child;

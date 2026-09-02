@@ -45,9 +45,14 @@ if (fileLog) {
 const children = new Map();
 let exiting = false;
 
+const isWindows = process.platform === "win32";
+
 function spawnNamed(name, cmd, args, opts = {}) {
   const stdio = logStream ? ["inherit", "pipe", "pipe"] : "inherit";
-  const child = spawn(cmd, args, { stdio, shell: false, ...opts });
+  // On Windows, .cmd shims (e.g. pnpm) can only be spawned via the shell.
+  const child = isWindows
+    ? spawn([cmd, ...args].join(" "), { stdio, shell: true, ...opts })
+    : spawn(cmd, args, { stdio, shell: false, ...opts });
 
   if (logStream) {
     child.stdout.on("data", (chunk) => {

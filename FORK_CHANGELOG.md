@@ -13,3 +13,12 @@ When pulling upstream updates, check each entry's **Conflict zones** against
 files upstream touched, in every section back to your current base.
 
 ---
+
+## fix(dev): spawn pnpm via shell on Windows
+
+**Conflict zones:**
+
+- `apps/frontend/scripts/dev-addon-sandbox.mjs` — `spawnPnpm`
+- `scripts/dev-web.mjs` — `spawnNamed`
+
+---
