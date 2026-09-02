@@ -14,6 +14,21 @@ files upstream touched, in every section back to your current base.
 
 ---
 
+## feat(charts): add 3Y interval to investment and net worth range selectors
+
+**Conflict zones:**
+
+- `packages/ui/src/components/financial/interval-selector.tsx` — `TimePeriod`
+  type, `intervalDescriptions`, `intervals`
+- `apps/frontend/src/lib/types.ts` — `TimePeriod` type
+- `apps/frontend/src/pages/dashboard/dashboard-content.tsx` —
+  `getDashboardChartMinDomainSpanRatio`,
+  `getDashboardNetContributionMaxDomainSpanRatio`
+- `apps/frontend/src/i18n/locales/*/ui.json` — `ui:interval` block (all 9
+  locales)
+
+---
+
 ## feat(docker): add fork-image build/update scripts
 
 **Conflict zones:**

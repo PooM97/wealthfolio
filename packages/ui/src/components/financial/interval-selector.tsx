@@ -6,7 +6,7 @@ import { cn } from "../../lib/utils";
 import { startOfYear, subDays, subMonths, subWeeks, subYears } from "date-fns";
 import React, { useCallback, useState } from "react";
 
-export type TimePeriod = "1D" | "1W" | "1M" | "3M" | "6M" | "YTD" | "1Y" | "5Y" | "ALL";
+export type TimePeriod = "1D" | "1W" | "1M" | "3M" | "6M" | "YTD" | "1Y" | "3Y" | "5Y" | "ALL";
 export interface DateRange {
   from: Date | undefined;
   to: Date | undefined;
@@ -26,6 +26,7 @@ const intervalDescriptions: Record<TimePeriod, string> = {
   "6M": "past 6 months",
   YTD: "year to date",
   "1Y": "past year",
+  "3Y": "past 3 years",
   "5Y": "past 5 years",
   ALL: "All Time",
 };
@@ -65,6 +66,11 @@ const intervals: IntervalData[] = [
     code: "1Y",
     description: intervalDescriptions["1Y"],
     calculateRange: () => ({ from: subYears(new Date(), 1), to: new Date() }),
+  },
+  {
+    code: "3Y",
+    description: intervalDescriptions["3Y"],
+    calculateRange: () => ({ from: subYears(new Date(), 3), to: new Date() }),
   },
   {
     code: "5Y",

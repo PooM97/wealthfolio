@@ -163,6 +163,7 @@
     "6M": "6 derniers mois",
     "YTD": "depuis le début de l'année",
     "1Y": "dernière année",
+    "3Y": "3 dernières années",
     "5Y": "5 dernières années",
     "ALL": "Tout l'historique",
     "label": {
@@ -173,6 +174,7 @@
       "6M": "6M",
       "YTD": "YTD",
       "1Y": "1A",
+      "3Y": "3A",
       "5Y": "5A",
       "ALL": "Max"
     }

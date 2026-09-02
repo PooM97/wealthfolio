@@ -163,6 +163,7 @@
     "6M": "past 6 months",
     "YTD": "year to date",
     "1Y": "past year",
+    "3Y": "past 3 years",
     "5Y": "past 5 years",
     "ALL": "All Time",
     "label": {
@@ -173,6 +174,7 @@
       "6M": "6M",
       "YTD": "YTD",
       "1Y": "1Y",
+      "3Y": "3Y",
       "5Y": "5Y",
       "ALL": "ALL"
     }

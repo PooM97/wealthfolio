@@ -43,6 +43,7 @@ function getDashboardChartMinDomainSpanRatio(period: UITimePeriod): number {
     case "YTD":
     case "1Y":
       return 0.16;
+    case "3Y":
     case "5Y":
     case "ALL":
       return 0.2;
@@ -63,6 +64,7 @@ function getDashboardNetContributionMaxDomainSpanRatio(period: UITimePeriod): nu
     case "YTD":
     case "1Y":
       return 2.2;
+    case "3Y":
     case "5Y":
     case "ALL":
       return 2.8;
