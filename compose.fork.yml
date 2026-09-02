@@ -1,0 +1,9 @@
+# Wealthfolio - Run a pre-built image from a registry
+#
+# Usage: docker compose --env-file .env.docker -f compose.yml -f compose.fork.yml up -d
+#
+# Pulls an image you built and pushed elsewhere instead of building locally or pulling the official image.
+
+services:
+  wealthfolio:
+    image: poomie/wealthfolio:latest

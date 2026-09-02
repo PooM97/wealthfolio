@@ -3,6 +3,7 @@
 # Usage: docker compose --env-file .env.docker up -d
 # Reverse proxy overlay: docker compose --env-file .env.docker -f compose.yml -f compose.proxy.yml up -d
 # Dev overlay: docker compose --env-file .env.docker -f compose.yml -f compose.dev.yml up
+# Fork overlay: docker compose --env-file .env.docker -f compose.yml -f compose.fork.yml up -d
 #
 # Publishes port 8088 for direct browser access.
 

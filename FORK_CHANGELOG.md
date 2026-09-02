@@ -14,6 +14,14 @@ files upstream touched, in every section back to your current base.
 
 ---
 
+## feat(docker): add fork-image build/update scripts
+
+**Conflict zones:**
+
+- `compose.yml` — usage-comment header (added a "Fork overlay" line)
+
+---
+
 ## fix(dev): spawn pnpm via shell on Windows
 
 **Conflict zones:**
