@@ -3904,6 +3904,62 @@ mod tests {
     }
 
     #[tokio::test]
+    async fn attested_total_within_rounding_tolerance_is_preserved_verbatim() {
+        // A user who explicitly overrides a total that happens to land within
+        // half a cent of the calculation (e.g. correcting a stray
+        // 9999.99531812-style total to a clean round number) must keep their
+        // exact number - the rounding-artifact tolerance exists to absorb
+        // import noise, not to overwrite an attested manual override.
+        let account_service = Arc::new(MockAccountService::new());
+        let asset_service = Arc::new(MockAssetService::new());
+        let activity_repository = Arc::new(MockActivityRepository::new());
+        account_service.add_account(create_test_account("acc-usd", "USD"));
+        asset_service.add_asset(create_test_asset("AAPL", "USD"));
+        let activity_service = ActivityService::new(
+            activity_repository,
+            account_service,
+            asset_service,
+            Arc::new(MockFxService::new()),
+            Arc::new(MockQuoteService),
+        );
+
+        let new_activity = NewActivity {
+            id: Some("buy-subcent-attested".to_string()),
+            account_id: "acc-usd".to_string(),
+            asset: Some(AssetResolutionInput {
+                id: Some("AAPL".to_string()),
+                ..Default::default()
+            }),
+            activity_type: "BUY".to_string(),
+            subtype: None,
+            activity_date: "2024-01-15".to_string(),
+            quantity: Some(dec!(1)),
+            unit_price: Some(dec!(9999.995)),
+            currency: "USD".to_string(),
+            fee: None,
+            tax: None,
+            amount: Some(dec!(10000.00)), // calculates to 9999.995 - within half a cent
+            status: None,
+            notes: None,
+            fx_rate: None,
+            metadata: None,
+            needs_review: Some(false),
+            source_system: None,
+            source_record_id: None,
+            source_group_id: None,
+            idempotency_key: None,
+            import_run_id: None,
+        };
+
+        let created = activity_service
+            .create_activity(new_activity)
+            .await
+            .expect("attested sub-cent override should be created");
+        assert_eq!(created.amount, Some(dec!(10000.00)));
+        assert!(!created.needs_review);
+    }
+
+    #[tokio::test]
     async fn sync_prepare_ignores_attestation_for_mismatched_trade_total() {
         // Only manual saves carry a human attestation; a synced row claiming
         // `needs_review: Some(false)` must still flag a total that disagrees

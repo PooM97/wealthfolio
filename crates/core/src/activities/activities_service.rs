@@ -263,6 +263,12 @@ impl ActivityService {
         allow_gross_conversion: bool,
     ) -> (Decimal, bool) {
         if let Some(expected) = ActivityEconomicsResolver::calculate_trade_final_cash(inputs) {
+            // An attested total is the user's number, full stop: neither the
+            // rounding tolerance nor the gross conversion below may rewrite
+            // it, even when it lands within half a cent of the calculation.
+            if !allow_gross_conversion {
+                return (amount.abs(), false);
+            }
             // Half a minor unit: absorbs genuine rounding artifacts while a
             // deliberate one-cent difference stays the user's value and flags.
             let tolerance = currency_minor_unit(currency) / Decimal::TWO;
@@ -272,9 +278,8 @@ impl ActivityService {
             // A total matching the derived gross is the pre-fee number from a
             // gross-reporting source; convert it to final exactly like the
             // migration does instead of storing it short by the charges.
-            if allow_gross_conversion
-                && ActivityEconomicsResolver::derived_positive_gross(inputs)
-                    .is_some_and(|gross| (amount.abs() - gross).abs() <= tolerance)
+            if ActivityEconomicsResolver::derived_positive_gross(inputs)
+                .is_some_and(|gross| (amount.abs() - gross).abs() <= tolerance)
             {
                 return (expected, false);
             }

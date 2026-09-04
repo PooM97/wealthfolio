@@ -60,3 +60,12 @@ files upstream touched, in every section back to your current base.
 - `scripts/docker-build.sh` — `ARGS` array
 
 ---
+
+## fix(activities): honor attested trade total within rounding tolerance
+
+**Conflict zones:**
+
+- `crates/core/src/activities/activities_service.rs` —
+  `mark_trade_amount_confidence`
+
+---
