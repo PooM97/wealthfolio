@@ -36,9 +36,12 @@ if ! docker buildx inspect "$BUILDER" >/dev/null 2>&1; then
 fi
 docker buildx use "$BUILDER"
 
+GIT_SHA="$(git rev-parse --short=7 HEAD)"
+
 ARGS=(
   build
   --builder "$BUILDER"
+  --build-arg "GIT_SHA=${GIT_SHA}"
   -t "${IMAGE}:${TAG}"
   .
 )

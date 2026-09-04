@@ -69,10 +69,34 @@ fn read_env_value_from_dotenv(key: &str) -> Option<String> {
     None
 }
 
+fn git_sha() -> String {
+    for var in ["GIT_SHA", "GITHUB_SHA"] {
+        if let Ok(sha) = env::var(var) {
+            let sha = sha.trim();
+            if !sha.is_empty() {
+                return sha.chars().take(7).collect();
+            }
+        }
+    }
+
+    std::process::Command::new("git")
+        .args(["rev-parse", "--short=7", "HEAD"])
+        .output()
+        .ok()
+        .filter(|output| output.status.success())
+        .and_then(|output| String::from_utf8(output.stdout).ok())
+        .map(|s| s.trim().to_string())
+        .filter(|s| !s.is_empty())
+        .unwrap_or_else(|| "unknown".to_string())
+}
+
 fn main() {
     println!("cargo:rerun-if-env-changed=CONNECT_API_URL");
     println!("cargo:rerun-if-env-changed=CONNECT_AUTH_URL");
     println!("cargo:rerun-if-env-changed=CONNECT_AUTH_PUBLISHABLE_KEY");
+    println!("cargo:rerun-if-env-changed=GIT_SHA");
+    println!("cargo:rerun-if-changed=../../.git/HEAD");
+    println!("cargo:rustc-env=GIT_SHA={}", git_sha());
 
     let connect_api_url = env::var("CONNECT_API_URL")
         .ok()

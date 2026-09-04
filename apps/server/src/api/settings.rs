@@ -96,6 +96,7 @@ const WEB_RUNTIME_TARGET: &str = "web-docker";
 #[serde(rename_all = "camelCase")]
 struct AppInfoResponse {
     version: String,
+    sha: String,
     db_path: String,
     logs_dir: String,
 }
@@ -117,6 +118,7 @@ async fn get_app_info(State(state): State<Arc<AppState>>) -> ApiResult<Json<AppI
 
     Ok(Json(AppInfoResponse {
         version,
+        sha: env!("GIT_SHA").to_string(),
         db_path,
         logs_dir,
     }))

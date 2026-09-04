@@ -132,6 +132,7 @@ fn is_allowed_external_url(url: &str) -> bool {
 #[serde(rename_all = "camelCase")]
 pub struct AppInfo {
     version: String,
+    sha: String,
     db_path: String,
     logs_dir: String,
 }
@@ -484,6 +485,7 @@ pub async fn get_app_info(app_handle: AppHandle) -> Result<AppInfo, String> {
 
     Ok(AppInfo {
         version,
+        sha: env!("GIT_SHA").to_string(),
         db_path,
         logs_dir,
     })

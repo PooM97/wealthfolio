@@ -313,6 +313,7 @@
   "about_description": "Application information",
   "about_app_name": "Wealthfolio",
   "about_version": "Version {{version}}",
+  "about_sha": "({{sha}})",
   "about_tagline": "A beautiful, simple, and secure personal finance and investment tracker that helps you take control of your wealth.",
   "about_check_update_button": "Check for Update",
   "about_website_button": "Website",

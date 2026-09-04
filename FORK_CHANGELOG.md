@@ -45,3 +45,18 @@ files upstream touched, in every section back to your current base.
 - `scripts/dev-web.mjs` — `spawnNamed`
 
 ---
+
+## feat(about): show build git SHA on About page
+
+**Conflict zones:**
+
+- `apps/frontend/src/adapters/types.ts` — `AppInfo` interface
+- `apps/frontend/src/adapters/web/settings.ts` — `getAppInfo`
+- `apps/frontend/src/pages/settings/about/about-page.tsx` — version display
+- `apps/server/build.rs`, `apps/tauri/build.rs` — build script `main()`
+- `apps/server/src/api/settings.rs`, `apps/tauri/src/commands/utilities.rs` —
+  `AppInfo`/`AppInfoResponse` struct, `get_app_info`
+- `Dockerfile` — build args section
+- `scripts/docker-build.sh` — `ARGS` array
+
+---

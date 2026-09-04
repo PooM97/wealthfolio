@@ -35,6 +35,10 @@ ARG CONNECT_AUTH_PUBLISHABLE_KEY=
 ENV CONNECT_AUTH_URL=${CONNECT_AUTH_URL}
 ENV CONNECT_AUTH_PUBLISHABLE_KEY=${CONNECT_AUTH_PUBLISHABLE_KEY}
 
+# Git SHA (build.rs can't read .git inside this build stage, so pass it in)
+ARG GIT_SHA=
+ENV GIT_SHA=${GIT_SHA}
+
 WORKDIR /app
 
 # Install build tools for the HOST (to run cargo, build scripts)

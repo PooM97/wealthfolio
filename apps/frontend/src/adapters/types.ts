@@ -190,6 +190,7 @@ export interface UpdateToolResultRequest {
  */
 export interface AppInfo {
   version: string;
+  sha: string;
   dbPath: string;
   logsDir: string;
 }

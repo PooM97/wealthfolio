@@ -99,6 +99,7 @@ export const getAppInfo = async (): Promise<AppInfo> => {
     console.error(err);
     return {
       version: "",
+      sha: "",
       dbPath: "",
       logsDir: "",
     };

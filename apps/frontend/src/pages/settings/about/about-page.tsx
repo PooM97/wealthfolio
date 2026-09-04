@@ -21,6 +21,7 @@ import { SettingsHeader } from "../settings-header";
 export default function AboutSettingsPage() {
   const { t } = useTranslation();
   const [version, setVersion] = useState<string>("");
+  const [sha, setSha] = useState<string>("");
   const [dbPath, setDbPath] = useState<string>("");
   const [logsDir, setLogsDir] = useState<string>("");
   const { isMobile } = usePlatform();
@@ -31,6 +32,7 @@ export default function AboutSettingsPage() {
     if (!isMobile) {
       getAppInfo().then((info) => {
         setVersion(info.version);
+        setSha(info.sha || "");
         setDbPath(info.dbPath || "");
         setLogsDir(info.logsDir);
       });
@@ -38,6 +40,7 @@ export default function AboutSettingsPage() {
       // On mobile, only get version
       getAppInfo().then((info) => {
         setVersion(info.version);
+        setSha(info.sha || "");
         setDbPath(info.dbPath || "");
       });
     }
@@ -82,6 +85,9 @@ export default function AboutSettingsPage() {
             <CardTitle className="text-xl">Wealthfolio</CardTitle>
             <CardDescription>
               {t("settings:about_version", { version: version || "N/A" })}
+              {sha && sha !== "unknown" && (
+                <span className="ml-1 font-mono">{t("settings:about_sha", { sha })}</span>
+              )}
             </CardDescription>
           </div>
         </CardHeader>
